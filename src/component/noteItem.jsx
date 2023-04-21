@@ -2,45 +2,103 @@ import React from 'react';
 import { produce } from 'immer';
 
 function NoteItem(props) {
-  const { key, note, setNotes } = props;
+  const {
+    notes, id, note, setNotes,
+  } = props;
 
-  // delete function
-  // function handleDelete(id) {
+  // mine
+  // /not class it's functional component
+  // function elete(event) {
+  //   console.log(event);
+  //   // const { id } = event.currentTarget; // null
   //   setNotes(
   //     produce((draftState) => {
-  //       return Object.values(draftState).filter((note) => note.id !== id);
+  //       // console.log(draftState);
+  //       delete draftState[abc];
   //     }),
   //   );
   // }
 
-  // not class it's functional component
-  function handleDelete(event) {
-    console.log(event);
-    // const { id } = event.currentTarget; // null
+  function deleteNote() {
     setNotes(
       produce((draftState) => {
-        // console.log(draftState);
-        delete draftState[key];
+        delete draftState[id];
       }),
     );
   }
 
+  function printObject(obj) {
+    Object.entries(obj).forEach(([key, value]) => {
+      console.log(key); // id1, id2
+      console.log(value);
+    });
+  }
+  printObject(notes);
+
   return (
-    <div className="todo-item">
+    <div className="note-item" key={id}>
       <h2>{note.title}</h2>
       <p>{note.text}</p>
-      <button type="submit" onClick={handleDelete}>Delete</button>
-      <button type="submit">Edit</button>
+      <p>{id}</p>
+      <button type="button" onClick={deleteNote}>Delete</button>
     </div>
+  // <div className="note-item" key={id}>
+  //   <h2>{note.title}</h2>
+  //   <p>{note.text}</p>
+  //   <p>{note.id}</p>
+  //   <button type="submit" onClick={deleteNote}>Delete</button>
+  // </div>
+
   );
 }
+
+export default NoteItem;
+
+// import React, { useState } from 'react';
+
 // function NoteItem(props) {
+//   const { note, onDelete } = props;
+//   const [editing, setEditing] = useState(false);
+//   const [newTitle, setNewTitle] = useState(note.title);
+//   const [newContent, setNewContent] = useState(note.content);
+
+//   const handleDelete = () => {
+//     onDelete(note.id);
+//   };
+
+//   const handleStartEditing = () => {
+//     setEditing(true);
+//   };
+
+//   const handleCancelEditing = () => {
+//     setNewTitle(note.title);
+//     setNewContent(note.content);
+//     setEditing(false);
+//   };
+
+//   const handleSaveEditing = () => {
+//     props.onEdit(note.id, newTitle, newContent);
+//     setEditing(false);
+//   };
+
 //   return (
-//     <div className="todo-item">
-//       <h3>{props.itemtitle}</h3>
-//       <button type="submit">Delete</button>
+//     <div className="note">
+//       {editing ? (
+//         <>
+//           <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+//           <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
+//           <button onClick={handleSaveEditing} type="submit">Save</button>
+//           <button onClick={handleCancelEditing} type="submit">Cancel</button>
+//         </>
+//       ) : (
+//         <>
+//           <h2>{note.title}</h2>
+//           <p>{note.content}</p>
+//           <button onClick={handleStartEditing} type="submit">Edit</button>
+//           <button onClick={handleDelete} type="submit">Delete</button>
+//         </>
+//       )}
 //     </div>
 //   );
 // }
-
-export default NoteItem;
+// export default NoteItem;
