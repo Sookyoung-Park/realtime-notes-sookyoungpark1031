@@ -31,7 +31,7 @@ function NoteItem(props) {
     setNotes(
       produce((draftState) => {
         draftState[id].title = newTitle;
-        draftState[id].content = newContent;
+        draftState[id].text = newContent;
       }),
     );
     setEditing(false);
@@ -58,6 +58,7 @@ function NoteItem(props) {
         <>
           <h2>{note.title}</h2>
           <p>{note.text}</p>
+          {/* <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} /> */}
           <p>{id}</p>
           <button onClick={handleStartEditing} type="submit">Edit</button>
           <button type="button" onClick={deleteNote}>Delete</button>
