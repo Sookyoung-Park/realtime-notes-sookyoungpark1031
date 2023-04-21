@@ -15,8 +15,10 @@ function NoteBoard(props) {
           note={note}
           notes={notes}
           setNotes={setNotes}
+
         />
       ))}
+
     </div>
   );
 }
@@ -26,6 +28,8 @@ NoteBoard.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired,
     }),
   ).isRequired,
   setNotes: PropTypes.func.isRequired,

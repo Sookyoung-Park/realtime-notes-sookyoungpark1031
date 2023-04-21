@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDrag } from 'react-dnd';
 import { produce } from 'immer';
 
 function NoteItem(props) {
@@ -7,7 +8,8 @@ function NoteItem(props) {
   } = props;
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(note.title);
-  const [newContent, setNewContent] = useState(note.content);
+  const [newContent, setNewContent] = useState(note.text);
+  const [position, setPosition] = useState({ x: note.x, y: note.y });
 
   function deleteNote() {
     setNotes(
@@ -23,7 +25,7 @@ function NoteItem(props) {
 
   const handleCancelEditing = () => {
     setNewTitle(note.title);
-    setNewContent(note.content);
+    setNewContent(note.text);
     setEditing(false);
   };
 
@@ -46,7 +48,7 @@ function NoteItem(props) {
   printObject(notes);
 
   return (
-    <div className="note-item" key={id}>
+    <div className="note-item" key={id} style={{ position: 'absolute', left: position.x, top: position.y }}>
       {editing ? (
         <>
           <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
@@ -58,13 +60,13 @@ function NoteItem(props) {
         <>
           <h2>{note.title}</h2>
           <p>{note.text}</p>
-          {/* <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} /> */}
-          <p>{id}</p>
+          {/* <p>{id}</p> */}
           <button onClick={handleStartEditing} type="submit">Edit</button>
           <button type="button" onClick={deleteNote}>Delete</button>
 
         </>
       )}
+
     </div>
 
   );
