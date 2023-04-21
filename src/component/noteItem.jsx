@@ -2,7 +2,7 @@ import React from 'react';
 import { produce } from 'immer';
 
 function NoteItem(props) {
-  const { note, setNotes } = props;
+  const { key, note, setNotes } = props;
 
   // delete function
   // function handleDelete(id) {
@@ -12,11 +12,15 @@ function NoteItem(props) {
   //     }),
   //   );
   // }
+
+  // not class it's functional component
   function handleDelete(event) {
-    const { id } = event.currentTarget;
+    console.log(event);
+    // const { id } = event.currentTarget; // null
     setNotes(
       produce((draftState) => {
-        delete draftState.notes[id];
+        // console.log(draftState);
+        delete draftState[key];
       }),
     );
   }
