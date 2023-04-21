@@ -1,28 +1,23 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 function NoteItem(props) {
-  // const { item } = props;
-  // console.log({ item });
+  const { note } = props;
+
   return (
     <div className="todo-item">
-      <div key={props.itemtitle}>
-        <h2>{props.itemtitle}</h2>
-        <p>{props.itemtext}</p>
-      </div>
-      {/* <h3>{props.itemtitle}</h3>
-      <h4>{props.itemtext}</h4> */}
-
+      <h2>{note.title}</h2>
+      <p>{note.text}</p>
       <button type="submit">Delete</button>
     </div>
   );
 }
-
-// NoteItem.propTypes = {
-//   item: PropTypes.shape({
-//     title: PropTypes.string.isRequired,
-//     text: PropTypes.string.isRequired,
-//   }).isRequired,
-// };
+// function NoteItem(props) {
+//   return (
+//     <div className="todo-item">
+//       <h3>{props.itemtitle}</h3>
+//       <button type="submit">Delete</button>
+//     </div>
+//   );
+// }
 
 export default NoteItem;

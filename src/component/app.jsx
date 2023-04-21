@@ -15,15 +15,20 @@ function App() {
     },
   });
 
+  const [noteCount, setNoteCount] = useState(2);
+
   // const updatedFields = { title: 'howdy' };
 
   // addition function
   function handleUpdate() {
     setNotes(
       produce((draftState) => {
-        draftState.id1 = { ...notes, inputValue };
+        const newId = `id${noteCount + 1}`;
+        draftState[newId] = { title: inputValue, text: '' };
       }),
     );
+    setNoteCount((prevNoteCount) => prevNoteCount + 1);
+    setInputValue('');
   }
 
   return (
