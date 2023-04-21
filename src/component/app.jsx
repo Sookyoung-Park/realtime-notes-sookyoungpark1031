@@ -35,7 +35,7 @@ function App() {
     <main>
       <input value={inputValue} type="text" onChange={(event) => setInputValue(event.target.value)} />
       <button onClick={handleUpdate} type="submit">Create</button>
-      <NoteBoard notes={notes} />
+      <NoteBoard notes={notes} setNotes={setNotes} />
     </main>
   );
 }
