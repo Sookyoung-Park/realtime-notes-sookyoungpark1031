@@ -4,15 +4,24 @@ import NoteBoard from './noteBoard';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
-  const [notes, setNotes] = useState({ title: 'boo', age: '12' });
+  const [notes, setNotes] = useState({
+    id1: {
+      title: 'boo',
+      text: 'avcs',
+    },
+    id2: {
+      title: 'coo',
+      text: 'avcdfs',
+    },
+  });
 
-  const updatedFields = { title: 'howdy' };
+  // const updatedFields = { title: 'howdy' };
 
   // addition function
   function handleUpdate() {
     setNotes(
       produce((draftState) => {
-        draftState.id1 = { ...notes, ...updatedFields };
+        draftState.id1 = { ...notes, inputValue };
       }),
     );
   }
