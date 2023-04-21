@@ -1,0 +1,74 @@
+
+- Notes App:
+    - Add a note:
+        - can either be a single title input + create button
+        - or a modal if you prefer with all fields
+    - Delete a note
+    - Move a note in x, y
+        - optionally in z *(zIndex)*
+    - Edit a note:
+        - title, content
+    - Notes:
+        - have title and content
+        - display with some formatting
+    - Persists all changes to Firebase in realtime
+    - Updates based on Firebase events
+    - is at least as stylish as these mockups
+
+
+- for example if your notes state looked something like this
+const [notes, setNotes] = useState({});
+
+and that our overall states looks something like this, a map of maps
+{
+    id: {
+      title: '',
+      text: '',
+      x: 0,
+      y: 0,
+      zIndex:0,
+    },
+    id2: { ... },
+  }
+
+// to update you could run something like this
+const updatedFields = { title: 'howdy' };
+
+using hooks to set the state of notes
+function handleUpdate() {
+  setNotes(
+    produce((draftState) => {
+      draftState.id1 = { ...draftState.id1, ...updatedFields };
+    }),
+  );
+}
+
+
+//deletion
+// instead of some obtuse code for filtering an object to return a new object sans that specific one
+setNotes((prevState) => ({
+    {notes: Object.fromEntries(Object.entries(prevState.notes).filter( ([note_id, note]) => { note_id != id}));}
+  }));
+
+
+
+//addition
+setNotes(
+  produce((draft) => {
+  //draft.notes[id] = newNote if you are using class components
+  // for hooks, draft is already notes
+  draft[id] = newNote;
+
+  }),
+);
+
+
+Here is how you could clone an object using immer:
+setNotes(
+	produce((draft) => {
+		draft[id] = { ...draft[id], ...fields };
+	}),
+);
+
+
+
