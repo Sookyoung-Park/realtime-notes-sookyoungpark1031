@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-// import { useDrag } from 'react-dnd';
 import { produce } from 'immer';
 import Draggable from 'react-draggable';
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/database';
 
 function NoteItem(props) {
   const {
@@ -13,11 +15,23 @@ function NoteItem(props) {
   const [position, setPosition] = useState({ x: note.x, y: note.y });
 
   function deleteNote() {
-    setNotes(
-      produce((draftState) => {
-        delete draftState[id];
-      }),
-    );
+    firebase.database().ref('notes').child(id).remove()
+      .then(() => {
+        setNotes(
+          produce((draftState) => {
+            delete draftState[id];
+          }),
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // 원래코드
+    // setNotes(
+    //   produce((draftState) => {
+    //     delete draftState[id];
+    //   }),
+    // );
   }
 
   const handleStartEditing = () => {
@@ -31,29 +45,25 @@ function NoteItem(props) {
   };
 
   const handleSaveEditing = () => {
-    setNotes(
-      produce((draftState) => {
-        draftState[id].title = newTitle;
-        draftState[id].text = newContent;
-      }),
-    );
-    setEditing(false);
+    firebase.database().ref('notes').child(id).update({
+      title: newTitle,
+      text: newContent,
+    })
+      .then(() => {
+        setEditing(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // 원래코드
+    // setNotes(
+    //   produce((draftState) => {
+    //     draftState[id].title = newTitle;
+    //     draftState[id].text = newContent;
+    //   }),
+    // );
+    // setEditing(false);
   };
-
-  // const [{ isDragging }, dragRef] = useDrag({
-  //   item: { id, type: 'note' },
-  //   collect: (monitor) => ({
-  //     isDragging: monitor.isDragging(),
-  //   }),
-  // });
-
-  // const handleDrag = (event, ui) => {
-  //   const { x, y } = position;
-  //   setPosition({
-  //     x: x + ui.deltaX,
-  //     y: y + ui.deltaY,
-  //   });
-  // };
 
   function printObject(obj) {
     Object.entries(obj).forEach(([key, value]) => {
@@ -63,32 +73,6 @@ function NoteItem(props) {
   }
   printObject(notes);
 
-  // return (
-  //   <div className="note-item" key={id} style={{ position: 'absolute', left: position.x, top: position.y }}>
-
-  //     {editing ? (
-  //       <>
-  //         <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-  //         <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
-  //         <button onClick={handleCancelEditing} type="submit">Cancel</button>
-  //         <button type="submit" onClick={handleSaveEditing}>Save</button>
-  //       </>
-  //     ) : (
-  //       <>
-  //         <h2>{note.title}</h2>
-  //         <p>{note.text}</p>
-  //         {/* <p>{id}</p> */}
-  //         <button onClick={handleStartEditing} type="submit">Edit</button>
-  //         <button type="button" onClick={deleteNote}>Delete</button>
-
-  //       </>
-  //     )}
-
-  //     {/* </button> */}
-
-  //   </div>
-
-  // );
   return (
     <Draggable
       defaultPosition={{ x: position.x, y: position.y }}
