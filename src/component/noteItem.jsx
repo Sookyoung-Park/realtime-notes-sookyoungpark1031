@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useDrag } from 'react-dnd';
+// import { useDrag } from 'react-dnd';
 import { produce } from 'immer';
+import Draggable from 'react-draggable';
 
 function NoteItem(props) {
   const {
@@ -39,6 +40,21 @@ function NoteItem(props) {
     setEditing(false);
   };
 
+  // const [{ isDragging }, dragRef] = useDrag({
+  //   item: { id, type: 'note' },
+  //   collect: (monitor) => ({
+  //     isDragging: monitor.isDragging(),
+  //   }),
+  // });
+
+  // const handleDrag = (event, ui) => {
+  //   const { x, y } = position;
+  //   setPosition({
+  //     x: x + ui.deltaX,
+  //     y: y + ui.deltaY,
+  //   });
+  // };
+
   function printObject(obj) {
     Object.entries(obj).forEach(([key, value]) => {
       console.log(key); // id1, id2
@@ -47,28 +63,55 @@ function NoteItem(props) {
   }
   printObject(notes);
 
+  // return (
+  //   <div className="note-item" key={id} style={{ position: 'absolute', left: position.x, top: position.y }}>
+
+  //     {editing ? (
+  //       <>
+  //         <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+  //         <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
+  //         <button onClick={handleCancelEditing} type="submit">Cancel</button>
+  //         <button type="submit" onClick={handleSaveEditing}>Save</button>
+  //       </>
+  //     ) : (
+  //       <>
+  //         <h2>{note.title}</h2>
+  //         <p>{note.text}</p>
+  //         {/* <p>{id}</p> */}
+  //         <button onClick={handleStartEditing} type="submit">Edit</button>
+  //         <button type="button" onClick={deleteNote}>Delete</button>
+
+  //       </>
+  //     )}
+
+  //     {/* </button> */}
+
+  //   </div>
+
+  // );
   return (
-    <div className="note-item" key={id} style={{ position: 'absolute', left: position.x, top: position.y }}>
-      {editing ? (
-        <>
-          <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-          <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
-          <button onClick={handleCancelEditing} type="submit">Cancel</button>
-          <button type="submit" onClick={handleSaveEditing}>Save</button>
-        </>
-      ) : (
-        <>
-          <h2>{note.title}</h2>
-          <p>{note.text}</p>
-          {/* <p>{id}</p> */}
-          <button onClick={handleStartEditing} type="submit">Edit</button>
-          <button type="button" onClick={deleteNote}>Delete</button>
-
-        </>
-      )}
-
-    </div>
-
+    <Draggable
+      defaultPosition={{ x: position.x, y: position.y }}
+      onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y })}
+    >
+      <div className="note-item" style={{ position: 'absolute' }}>
+        {editing ? (
+          <>
+            <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+            <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
+            <button onClick={handleCancelEditing} type="submit">Cancel</button>
+            <button type="submit" onClick={handleSaveEditing}>Save</button>
+          </>
+        ) : (
+          <>
+            <h2>{note.title}</h2>
+            <p>{note.text}</p>
+            <button onClick={handleStartEditing} type="submit">Edit</button>
+            <button type="button" onClick={deleteNote}>Delete</button>
+          </>
+        )}
+      </div>
+    </Draggable>
   );
 }
 

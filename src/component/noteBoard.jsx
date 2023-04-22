@@ -15,10 +15,8 @@ function NoteBoard(props) {
           note={note}
           notes={notes}
           setNotes={setNotes}
-
         />
       ))}
-
     </div>
   );
 }
