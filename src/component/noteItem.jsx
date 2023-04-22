@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
 import Draggable from 'react-draggable';
 import ReactMarkdown from 'react-markdown';
@@ -14,6 +14,35 @@ function NoteItem(props) {
   const [newTitle, setNewTitle] = useState(note.title);
   const [newContent, setNewContent] = useState(note.text);
   const [position, setPosition] = useState({ x: note.x, y: note.y });
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const colors = ['#ff8a80', '#80d8ff', '#ccff90'];
+
+  useEffect(() => {
+    // Firebase에서 색상 불러오기
+    firebase.database().ref('notes').child(id).once('value')
+      .then((snapshot) => {
+        const savedBackgroundColor = snapshot.val().backgroundColor;
+        if (savedBackgroundColor) {
+          setBackgroundColor(savedBackgroundColor);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colors.length);
+          const randomColor = colors[randomIndex];
+          setBackgroundColor(randomColor);
+          firebase.database().ref('notes').child(id).update({ backgroundColor: randomColor })
+            .then(() => console.log('Background color saved successfully'))
+            .catch((error) => console.error(error));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [id, colors]);
+
+  // if (!backgroundColor) {
+  //   const colors = ['#ff8a80', '#80d8ff', '#ccff90'];
+  //   const randomIndex = Math.floor(Math.random() * colors.length);
+  //   setBackgroundColor(colors[randomIndex]);
+  // }
 
   function deleteNote() {
     firebase.database().ref('notes').child(id).remove()
@@ -63,13 +92,13 @@ function NoteItem(props) {
       });
   };
 
-  function printObject(obj) {
-    Object.entries(obj).forEach(([key, value]) => {
-      console.log(key); // id1, id2
-      console.log(value);
-    });
-  }
-  printObject(notes);
+  // function printObject(obj) {
+  //   Object.entries(obj).forEach(([key, value]) => {
+  //     console.log(key); // id1, id2
+  //     console.log(value);
+  //   });
+  // }
+  // printObject(notes);
 
   return (
     <Draggable
@@ -80,7 +109,7 @@ function NoteItem(props) {
         handleStopDrag(event, ui);
       }}
     >
-      <div className="note-item" style={{ position: 'absolute' }}>
+      <div className="note-item" style={{ position: 'absolute', backgroundColor }}>
         {editing ? (
           <>
             <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />

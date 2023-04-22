@@ -22,20 +22,15 @@ function fetchNotes(setNotes) {
     setNotes(newNoteState);
   });
 }
+
+function addNotes(note) {
+  firebase.database().ref('notes').push(note);
+}
+
 const firebasedb = {
   firebase,
   fetchNotes,
+  addNotes,
 };
 
 export default firebasedb;
-
-// fetchNotes((notes) => {
-//   this.setState({ notes });
-// });
-
-// firebasedb.fetchNotes((notes) => {
-//   this.setState({ notes });
-// });
-
-// firebase.database().ref('notes').child(id).remove();
-// // firebase.database().ref('notes').child(id).update()도 사용할 수 있습니다.

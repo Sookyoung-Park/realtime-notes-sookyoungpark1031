@@ -21,49 +21,44 @@ function App() {
 
   // addition function
   function handleUpdate() {
-    const newId = `id${noteCount + 1}`;
+    // const newId = `id${noteCount + 1}`;
     const min = 50;
     const max = 800;
     const x = Math.floor(Math.random() * (max - min) + min);
     const y = Math.floor(Math.random() * (max - min) + min);
 
-    const newNoteRef = database().ref('notes').child(newId);
-    newNoteRef.set({
+    // const newNoteRef = database().ref('notes').child(newId);
+    // newNoteRef.set({
+    //   title: inputValue,
+    //   text: '',
+    //   x,
+    //   y,
+    // });
+    const newNote = {
       title: inputValue,
       text: '',
       x,
       y,
-    });
+    };
 
-    setNotes(
-      produce((draftState) => {
-        draftState[newId] = {
-          title: inputValue,
-          text: '',
-          x,
-          y,
-        };
-      }),
-    );
+    firebasedb.addNotes(newNote);
 
-    setNoteCount((prevNoteCount) => prevNoteCount + 1);
-    setInputValue('');
-    // 원래코드
+    // console.log('id', newId);
+
     // setNotes(
     //   produce((draftState) => {
-    //     const newId = `id${noteCount + 1}`;
-    //     const min = 50;
-    //     const max = 800;
-    //     const x = Math.floor(Math.random() * (max - min) + min);
-    //     const y = Math.floor(Math.random() * (max - min) + min);
-
     //     draftState[newId] = {
-    //       title: inputValue, text: '', x, y,
+    //       title: inputValue,
+    //       text: '',
+    //       x,
+    //       y,
     //     };
     //   }),
     // );
+
     // setNoteCount((prevNoteCount) => prevNoteCount + 1);
-    // setInputValue('');
+    // console.log('count', noteCount);
+    setInputValue('');
   }
 
   return (
