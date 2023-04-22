@@ -1,5 +1,55 @@
-.note-item{
-    background-color: rgb(208, 255, 239);
-    width:300px;
-    height:160px;
+@import url('https://font.googleapis.com/css2?family=Poppins');
+
+*{
+  font-family:'Poppins';
+}
+
+.note-item {
+  background-color: rgb(208, 255, 239);
+  width: 300px;
+  height: auto;
+  overflow: auto;
+  word-wrap: break-word;
+}
+
+.note-item h2,p{
+  padding-left: 10px;
+  padding-right:10px;
+}
+
+.form {
+  width: 100%;
+  padding: 1.5rem 1rem 0 1rem;
+  display: flex;
+  input {
+    width: 30%;
+    font-size: 14px;
+    margin: 0 .5em;
+    border-radius: 2em;
+    padding: 0.75em 1.5em;
+    background: none;
+    border: #e3e3e3 1px solid;
+    transition: border 250ms ease-out;
+    &:focus {
+      outline: none;
+    }
   }
+  .createBtn{
+    font-size: 14px;
+  margin: 0 .5em;
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+  background: none;
+  border: 1px solid;
+  letter-spacing: 1px;
+  color: #4fc08d;
+  transition: 250ms ease-out;
+  &:hover, &:focus {
+    background-color: #4fc08d;
+    color:#fff;
+    
+
+  }
+  }
+}

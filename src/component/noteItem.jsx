@@ -52,6 +52,17 @@ function NoteItem(props) {
       });
   };
 
+  const handleStopDrag = (event, ui) => {
+    const { x, y } = ui;
+    firebase.database().ref('notes').child(id).update({ x, y })
+      .then(() => {
+        console.log('Position updated successfully');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   function printObject(obj) {
     Object.entries(obj).forEach(([key, value]) => {
       console.log(key); // id1, id2
@@ -63,7 +74,11 @@ function NoteItem(props) {
   return (
     <Draggable
       defaultPosition={{ x: position.x, y: position.y }}
-      onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y })}
+      // onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y }), { handleStopDrag }}
+      onStop={(event, ui) => {
+        setPosition({ x: ui.x, y: ui.y });
+        handleStopDrag(event, ui);
+      }}
     >
       <div className="note-item" style={{ position: 'absolute' }}>
         {editing ? (
@@ -90,21 +105,6 @@ function NoteItem(props) {
             <button type="button" onClick={deleteNote}>Delete</button>
           </>
         )}
-        {/* {editing ? (
-          <>
-            <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-            <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
-            <button onClick={handleCancelEditing} type="submit">Cancel</button>
-            <button type="submit" onClick={handleSaveEditing}>Save</button>
-          </>
-        ) : (
-          <>
-            <h2>{note.title}</h2>
-            <p>{note.text}</p>
-            <button onClick={handleStartEditing} type="submit">Edit</button>
-            <button type="button" onClick={deleteNote}>Delete</button>
-          </>
-        )} */}
       </div>
     </Draggable>
   );

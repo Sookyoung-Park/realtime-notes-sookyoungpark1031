@@ -68,8 +68,10 @@ function App() {
 
   return (
     <main>
-      <input value={inputValue} type="text" onChange={(event) => setInputValue(event.target.value)} />
-      <button onClick={handleUpdate} type="submit">Create</button>
+      <form className="form">
+        <input value={inputValue} type="text" onChange={(event) => setInputValue(event.target.value)} />
+        <button onClick={handleUpdate} type="submit" className="createBtn">Create</button>
+      </form>
       <DndProvider backend={HTML5Backend}>
         <NoteBoard notes={notes} setNotes={setNotes} />
       </DndProvider>
