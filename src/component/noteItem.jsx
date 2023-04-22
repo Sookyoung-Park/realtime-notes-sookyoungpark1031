@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { produce } from 'immer';
 import Draggable from 'react-draggable';
-
+import ReactMarkdown from 'react-markdown';
 import firebase from 'firebase/compat/app';
+import CodeBlock from './CodeBlock';
 import 'firebase/compat/database';
 
 function NoteItem(props) {
@@ -26,12 +27,6 @@ function NoteItem(props) {
       .catch((error) => {
         console.error(error);
       });
-    // 원래코드
-    // setNotes(
-    //   produce((draftState) => {
-    //     delete draftState[id];
-    //   }),
-    // );
   }
 
   const handleStartEditing = () => {
@@ -55,14 +50,6 @@ function NoteItem(props) {
       .catch((error) => {
         console.error(error);
       });
-    // 원래코드
-    // setNotes(
-    //   produce((draftState) => {
-    //     draftState[id].title = newTitle;
-    //     draftState[id].text = newContent;
-    //   }),
-    // );
-    // setEditing(false);
   };
 
   function printObject(obj) {
@@ -82,6 +69,30 @@ function NoteItem(props) {
         {editing ? (
           <>
             <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+            <ReactMarkdown
+              value={`# ${newTitle}\n\n${newContent}`}
+              onChange={(e) => setNewContent(e.target.value)}
+              className="note-textarea"
+              allowDangerousHtml
+              renderers={{
+                code: CodeBlock,
+              }}
+            />
+            <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
+            <button onClick={handleCancelEditing} type="submit">Cancel</button>
+            <button type="submit" onClick={handleSaveEditing}>Save</button>
+          </>
+        ) : (
+          <>
+            <h2>{note.title}</h2>
+            <ReactMarkdown>{note.text || ''}</ReactMarkdown>
+            <button onClick={handleStartEditing} type="submit">Edit</button>
+            <button type="button" onClick={deleteNote}>Delete</button>
+          </>
+        )}
+        {/* {editing ? (
+          <>
+            <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
             <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
             <button onClick={handleCancelEditing} type="submit">Cancel</button>
             <button type="submit" onClick={handleSaveEditing}>Save</button>
@@ -93,7 +104,7 @@ function NoteItem(props) {
             <button onClick={handleStartEditing} type="submit">Edit</button>
             <button type="button" onClick={deleteNote}>Delete</button>
           </>
-        )}
+        )} */}
       </div>
     </Draggable>
   );
