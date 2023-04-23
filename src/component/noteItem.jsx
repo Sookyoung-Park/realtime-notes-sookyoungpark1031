@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import firebase from 'firebase/compat/app';
 import CodeBlock from './CodeBlock';
 import 'firebase/compat/database';
+import firebasedb from '../services/datatstore';
 
 function NoteItem(props) {
   const {
@@ -15,7 +16,9 @@ function NoteItem(props) {
   const [newContent, setNewContent] = useState(note.text);
   const [position, setPosition] = useState({ x: note.x, y: note.y });
   const [backgroundColor, setBackgroundColor] = useState('');
-  const colors = ['#ff8a80', '#80d8ff', '#ccff90'];
+  const [dragging, setDragging] = useState(false);
+
+  const colors = ['#FFE7F4', '#E3FFBA', '#FFFFB1'];
 
   useEffect(() => {
     // Firebase에서 색상 불러오기
@@ -37,12 +40,6 @@ function NoteItem(props) {
         console.error(error);
       });
   }, [id, colors]);
-
-  // if (!backgroundColor) {
-  //   const colors = ['#ff8a80', '#80d8ff', '#ccff90'];
-  //   const randomIndex = Math.floor(Math.random() * colors.length);
-  //   setBackgroundColor(colors[randomIndex]);
-  // }
 
   function deleteNote() {
     firebase.database().ref('notes').child(id).remove()
@@ -81,33 +78,27 @@ function NoteItem(props) {
       });
   };
 
-  const handleStopDrag = (event, ui) => {
-    const { x, y } = ui;
-    firebase.database().ref('notes').child(id).update({ x, y })
-      .then(() => {
-        console.log('Position updated successfully');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const handleStartDrag = () => {
+    setDragging(true);
   };
 
-  // function printObject(obj) {
-  //   Object.entries(obj).forEach(([key, value]) => {
-  //     console.log(key); // id1, id2
-  //     console.log(value);
-  //   });
-  // }
-  // printObject(notes);
+  const handleStopDrag = (event, ui) => {
+    const { x, y } = ui;
+    firebasedb.updateNotePosition(id, x, y);
+  };
 
   return (
     <Draggable
+      bounds={{
+        left: -50, top: -50, right: window.innerWidth - 50, bottom: window.innerHeight - 50,
+      }}
       defaultPosition={{ x: position.x, y: position.y }}
       // onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y }), { handleStopDrag }}
       onStop={(event, ui) => {
         setPosition({ x: ui.x, y: ui.y });
         handleStopDrag(event, ui);
       }}
+      onStart={handleStartDrag}
     >
       <div className="note-item" style={{ position: 'absolute', backgroundColor }}>
         {editing ? (

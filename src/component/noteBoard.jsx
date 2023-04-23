@@ -4,7 +4,7 @@ import NoteItem from './noteItem';
 
 function NoteBoard(props) {
   const { notes, setNotes } = props;
-  console.log({ notes });
+  // console.log({ notes });
 
   return (
     <div className="note-board">

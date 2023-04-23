@@ -18,7 +18,6 @@ firebase.initializeApp(firebaseConfig);
 function fetchNotes(setNotes) {
   firebase.database().ref('notes').on('value', (snapshot) => {
     const newNoteState = snapshot.val();
-    // callback(newNoteState);
     setNotes(newNoteState);
   });
 }
@@ -27,10 +26,18 @@ function addNotes(note) {
   firebase.database().ref('notes').push(note);
 }
 
+function updateNotePosition(noteId, x, y) {
+  firebase.database().ref('notes').child(noteId).update({
+    x,
+    y,
+  });
+}
+
 const firebasedb = {
   firebase,
   fetchNotes,
   addNotes,
+  updateNotePosition,
 };
 
 export default firebasedb;

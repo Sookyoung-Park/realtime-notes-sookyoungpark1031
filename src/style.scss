@@ -17,6 +17,15 @@
   padding-right:10px;
 }
 
+.note-item h2{
+  font-size: 1.2rem;
+}
+
+.note-item p{
+  font-size:0.9rem;
+}
+
+
 .form {
   width: 100%;
   padding: 1.5rem 1rem 0 1rem;
@@ -34,6 +43,8 @@
       outline: none;
     }
   }
+  
+  
   .createBtn{
     font-size: 14px;
   margin: 0 .5em;
@@ -49,7 +60,39 @@
     background-color: #4fc08d;
     color:#fff;
     
+  }
+  }
+}
 
-  }
-  }
+
+button{
+  font-size: 10px;
+margin: 0 .5em;
+border-radius: 2em;
+padding: 0.75em 1.5em;
+cursor: pointer;
+background: none;
+border: 1px solid;
+letter-spacing: 1px;
+color: #4fc08d;
+margin-bottom:10px;
+transition: 250ms ease-out;
+&:hover, &:focus {
+  background-color: #4fc08d;
+  color:#fff;
+  
+}
+}
+
+textarea{
+  border: 1px solid #4fc08d;
+  background-color: #ffffff6e;
+  width:50%;
+}
+
+input{
+  border: 1px solid #4fc08d;
+  background-color: #ffffff6e;
+  margin-bottom:10px;
+  width:50%;
 }
