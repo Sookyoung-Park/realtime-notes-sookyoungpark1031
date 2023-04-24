@@ -98,11 +98,12 @@ function NoteItem(props) {
         left: -50, top: -50, right: window.innerWidth - 50, bottom: window.innerHeight - 50,
       }}
       defaultPosition={{ x: position.x, y: position.y }}
+      position={{ x: notes[id].x, y: notes[id].y }}
       // onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y }), { handleStopDrag }}
-      onStop={(event, ui) => {
-        setPosition({ x: ui.x, y: ui.y });
-        handleStopDrag(event, ui);
-      }}
+      // onStop={(event, ui) => {
+      //   setPosition({ x: ui.x, y: ui.y });
+      //   handleStopDrag(event, ui);
+      // }}
       onStart={handleStartDrag}
       onDrag={handleStopDrag}
     >
