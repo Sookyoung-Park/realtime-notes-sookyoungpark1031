@@ -26,8 +26,8 @@ function addNotes(note) {
   firebase.database().ref('notes').push(note);
 }
 
-function updateNotePosition(noteId, x, y) {
-  firebase.database().ref('notes').child(noteId).update({
+function updateNotePosition(id, x, y) {
+  firebase.database().ref('notes').child(id).update({
     x,
     y,
   });

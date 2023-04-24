@@ -82,6 +82,11 @@ function NoteItem(props) {
     setDragging(true);
   };
 
+  // const onDragging = (event, ui) = {
+  //   const { x, y } = ui;
+  //   firebasedb.updateNotePosition(id, x, y);
+  // }
+
   const handleStopDrag = (event, ui) => {
     const { x, y } = ui;
     firebasedb.updateNotePosition(id, x, y);
@@ -99,6 +104,7 @@ function NoteItem(props) {
         handleStopDrag(event, ui);
       }}
       onStart={handleStartDrag}
+      onDrag={handleStopDrag}
     >
       <div className="note-item" style={{ position: 'absolute', backgroundColor }}>
         {editing ? (
