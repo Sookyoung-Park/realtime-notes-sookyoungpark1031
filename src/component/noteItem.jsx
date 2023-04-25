@@ -18,28 +18,11 @@ function NoteItem(props) {
   const [backgroundColor, setBackgroundColor] = useState('');
   const [dragging, setDragging] = useState(false);
   const [editingUser, setEditingUser] = useState(null); // added
+  const [deleteDisabled, setDeleteDisabled] = useState(false);
+  const [editDisabled, setEditDisabled] = useState(false);
 
   const colors = ['#FFE7F4', '#E3FFBA', '#FFFFB1'];
 
-  // useEffect(() => {
-  //   firebase.database().ref('notes').child(id).once('value')
-  //     .then((snapshot) => {
-  //       const savedBackgroundColor = snapshot.val().backgroundColor;
-  //       if (savedBackgroundColor) {
-  //         setBackgroundColor(savedBackgroundColor);
-  //       } else {
-  //         const randomIndex = Math.floor(Math.random() * colors.length);
-  //         const randomColor = colors[randomIndex];
-  //         setBackgroundColor(randomColor);
-  //         firebase.database().ref('notes').child(id).update({ backgroundColor: randomColor })
-  //           .then(() => console.log('Background color saved successfully'))
-  //           .catch((error) => console.error(error));
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [id, colors]);
   useEffect(() => {
     firebase.database().ref('notes').child(id).once('value')
       .then((snapshot) => {
@@ -59,33 +42,67 @@ function NoteItem(props) {
         console.error(error);
       });
 
-    firebase.database().ref('notes').child(id).on('value', (snapshot) => {
+    const handleSnapshot = (snapshot) => {
       const data = snapshot.val();
       const currentUser = firebase.auth().currentUser.uid;
       setEditing(data.editing === currentUser);
       setEditingUser(data.editing);
-    });
+    };
+
+    firebase.database().ref('notes').child(id).on('value', handleSnapshot);
+
+    return () => {
+      firebase.database().ref('notes').child(id).off('value', handleSnapshot);
+    };
   }, [id, colors]);
 
   function deleteNote() {
-    firebase.database().ref('notes').child(id).remove()
-      .then(() => {
-        setNotes(
-          produce((draftState) => {
-            delete draftState[id];
-          }),
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // if (editing) {
+    //   alert('No! Someone is edidting now');
+    // } else {
+    //   firebase.database().ref('notes').child(id).remove()
+    //     .then(() => {
+    //       setNotes(
+    //         produce((draftState) => {
+    //           delete draftState[id];
+    //         }),
+    //       );
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // }
+    if (editingUser) {
+      alert('No! Someone is editing now');
+    } else {
+      firebase.database().ref('notes').child(id).remove()
+        .then(() => {
+          setNotes(
+            produce((draftState) => {
+              delete draftState[id];
+            }),
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }
 
   const handleStartEditing = () => {
     const currentUser = firebase.auth().currentUser.uid;
-    firebase.database().ref('notes').child(id).update({ editing: currentUser })
-      .then(() => setEditing(true))
-      .catch((error) => console.error(error));
+
+    if (editingUser) {
+      alert('No! Someone is editing now');
+    } else {
+      firebase.database().ref('notes').child(id).update({ editing: currentUser })
+        .then(() => setEditing(true))
+        .catch((error) => console.error(error));
+    }
+
+    // alert('This note is being edited by another user.');
+    console.log('This note is being edited by another user.');
+
     // setEditing(true);
   };
 
@@ -124,42 +141,6 @@ function NoteItem(props) {
   };
 
   return (
-  // <Draggable
-  //   bounds={{
-  //     left: 20, top: 30, right: window.innerWidth - 330, bottom: window.innerHeight - 220,
-  //   }}
-  //   defaultPosition={{ x: position.x, y: position.y }}
-  //   position={{ x: notes[id].x, y: notes[id].y }}
-  //   onStart={handleStartDrag}
-  //   onDrag={handleStopDrag}
-  // >
-  //   <div className="note-item" style={{ position: 'absolute', backgroundColor }}>
-  //     {editing ? (
-  //       <>
-  //         <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-  //         <ReactMarkdown
-  //           value={`# ${newTitle}\n\n${newContent}`}
-  //           onChange={(e) => setNewContent(e.target.value)}
-  //           className="note-textarea"
-  //           allowDangerousHtml
-  //           renderers={{
-  //             code: CodeBlock,
-  //           }}
-  //         />
-  //         <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
-  //         <button onClick={handleCancelEditing} type="submit">Cancel</button>
-  //         <button type="submit" onClick={handleSaveEditing}>Save</button>
-  //       </>
-  //     ) : (
-  //       <>
-  //         <h2>{note.title}</h2>
-  //         <ReactMarkdown>{note.text || ''}</ReactMarkdown>
-  //         <button onClick={handleStartEditing} type="submit">Edit</button>
-  //         <button type="button" onClick={deleteNote}>Delete</button>
-  //       </>
-  //     )}
-  //   </div>
-
     // </Draggable>
     <Draggable
       bounds={{
@@ -172,7 +153,7 @@ function NoteItem(props) {
       position={{ x: notes[id].x, y: notes[id].y }}
       onStart={handleStartDrag}
       onDrag={handleStopDrag}
-      disabled={editing && editingUser !== firebase.auth().currentUser.uid}
+
     >
       {/* <div
         onDoubleClick={handleStartEditing}
@@ -202,7 +183,7 @@ function NoteItem(props) {
             <button onClick={handleStartEditing} type="submit">Edit</button>
             <button type="button" onClick={deleteNote}>Delete</button>
           </>
-        )}
+        )}-
       </div>
     </Draggable>
 
