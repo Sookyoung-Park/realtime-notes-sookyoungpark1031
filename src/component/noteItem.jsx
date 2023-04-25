@@ -122,6 +122,7 @@ function NoteItem(props) {
           </>
         )}
       </div>
+
     </Draggable>
   );
 }

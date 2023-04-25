@@ -28,6 +28,7 @@ NoteBoard.propTypes = {
       text: PropTypes.string.isRequired,
       x: PropTypes.number.isRequired,
       y: PropTypes.number.isRequired,
+      z: PropTypes.number.isRequired,
     }),
   ).isRequired,
   setNotes: PropTypes.func.isRequired,
