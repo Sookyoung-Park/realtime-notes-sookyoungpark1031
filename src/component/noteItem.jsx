@@ -21,7 +21,6 @@ function NoteItem(props) {
   const colors = ['#FFE7F4', '#E3FFBA', '#FFFFB1'];
 
   useEffect(() => {
-    // Firebase에서 색상 불러오기
     firebase.database().ref('notes').child(id).once('value')
       .then((snapshot) => {
         const savedBackgroundColor = snapshot.val().backgroundColor;
@@ -82,11 +81,6 @@ function NoteItem(props) {
     setDragging(true);
   };
 
-  // const onDragging = (event, ui) = {
-  //   const { x, y } = ui;
-  //   firebasedb.updateNotePosition(id, x, y);
-  // }
-
   const handleStopDrag = (event, ui) => {
     const { x, y } = ui;
     firebasedb.updateNotePosition(id, x, y);
@@ -95,15 +89,10 @@ function NoteItem(props) {
   return (
     <Draggable
       bounds={{
-        left: -50, top: -50, right: window.innerWidth - 50, bottom: window.innerHeight - 50,
+        left: 20, top: 30, right: window.innerWidth - 330, bottom: window.innerHeight - 220,
       }}
       defaultPosition={{ x: position.x, y: position.y }}
       position={{ x: notes[id].x, y: notes[id].y }}
-      // onStop={(event, ui) => setPosition({ x: ui.x, y: ui.y }), { handleStopDrag }}
-      // onStop={(event, ui) => {
-      //   setPosition({ x: ui.x, y: ui.y });
-      //   handleStopDrag(event, ui);
-      // }}
       onStart={handleStartDrag}
       onDrag={handleStopDrag}
     >

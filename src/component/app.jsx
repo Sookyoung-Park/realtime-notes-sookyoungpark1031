@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import { produce } from 'immer';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-// import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import NoteBoard from './noteBoard';
 import firebasedb from '../services/datatstore';
@@ -16,7 +14,6 @@ function App() {
     firebasedb.fetchNotes(setNotes);
   }, []);
 
-  // addition function
   function handleUpdate() {
     const min = 50;
     const max = 800;

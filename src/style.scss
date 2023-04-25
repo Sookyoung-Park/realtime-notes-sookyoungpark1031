@@ -5,11 +5,32 @@
 }
 
 .note-item {
-  background-color: rgb(208, 255, 239);
+  background-color: rgb(17, 255, 176);
   width: 300px;
   height: auto;
   overflow: auto;
   word-wrap: break-word;
+}
+
+.note-board {
+  // background-color: #4fc08d;
+  // position: absolute;
+  // left: 25px;
+  // top: 70px;
+  // right: calc(100%);
+  // bottom: calc(100% - 220px);
+  .parent-element {
+    position: relative; /* 부모 요소에 position 속성 추가 */
+  }
+  
+  .note-board {
+    background-color: #4fc08d;
+    position: absolute;
+    left: 25px;
+    top: 70px;
+    right: 25px; /* 부모 요소와 동일한 거리만큼 지정 */
+    bottom: calc(100% - 220px);
+  }
 }
 
 .note-item h2,p{
@@ -30,6 +51,7 @@
   width: 100%;
   padding: 1.5rem 1rem 0 1rem;
   display: flex;
+  justify-content: center;
   input {
     width: 30%;
     font-size: 14px;

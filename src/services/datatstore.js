@@ -1,6 +1,5 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
-// ^ we are using compat notation here as the new firebase 9 api is a mess and i kinda hate it
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCsd7Y1YCoyATaFmUk1uKlxpT_F3PifPdg',
