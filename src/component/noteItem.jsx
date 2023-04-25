@@ -3,7 +3,7 @@ import { produce } from 'immer';
 import Draggable from 'react-draggable';
 import ReactMarkdown from 'react-markdown';
 import firebase from 'firebase/compat/app';
-import CodeBlock from './CodeBlock';
+import CodeBlock from './codeblock';
 import 'firebase/compat/database';
 import firebasedb from '../services/datatstore';
 
