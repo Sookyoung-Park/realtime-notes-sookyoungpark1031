@@ -17,9 +17,7 @@ function NoteItem(props) {
   const [position, setPosition] = useState({ x: note.x, y: note.y });
   const [backgroundColor, setBackgroundColor] = useState('');
   const [dragging, setDragging] = useState(false);
-  const [editingUser, setEditingUser] = useState(null); // added
-  const [deleteDisabled, setDeleteDisabled] = useState(false);
-  const [editDisabled, setEditDisabled] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
 
   const colors = ['#FFE7F4', '#E3FFBA', '#FFFFB1'];
 
@@ -57,21 +55,6 @@ function NoteItem(props) {
   }, [id, colors]);
 
   function deleteNote() {
-    // if (editing) {
-    //   alert('No! Someone is edidting now');
-    // } else {
-    //   firebase.database().ref('notes').child(id).remove()
-    //     .then(() => {
-    //       setNotes(
-    //         produce((draftState) => {
-    //           delete draftState[id];
-    //         }),
-    //       );
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }
     if (editingUser) {
       alert('No! Someone is editing now');
     } else {
@@ -100,10 +83,7 @@ function NoteItem(props) {
         .catch((error) => console.error(error));
     }
 
-    // alert('This note is being edited by another user.');
     console.log('This note is being edited by another user.');
-
-    // setEditing(true);
   };
 
   const handleCancelEditing = () => {
@@ -111,7 +91,6 @@ function NoteItem(props) {
     setNewContent(note.text);
     setEditing(false);
 
-    const currentUser = firebase.auth().currentUser.uid;
     firebase.database().ref('notes').child(id).update({ editing: null })
       .then(() => console.log('Editing finished successfully'))
       .catch((error) => console.error(error));
@@ -153,12 +132,8 @@ function NoteItem(props) {
       position={{ x: notes[id].x, y: notes[id].y }}
       onStart={handleStartDrag}
       onDrag={handleStopDrag}
-
     >
-      {/* <div
-        onDoubleClick={handleStartEditing}
-        style={{ backgroundColor }}
-      > */}
+
       <div className="note-item" style={{ position: 'absolute', backgroundColor }}>
         {editing && editingUser === firebase.auth().currentUser.uid ? (
           <div>
@@ -183,7 +158,7 @@ function NoteItem(props) {
             <button onClick={handleStartEditing} type="submit">Edit</button>
             <button type="button" onClick={deleteNote}>Delete</button>
           </>
-        )}-
+        )}
       </div>
     </Draggable>
 

@@ -13,14 +13,8 @@
 }
 
 .note-board {
-  // background-color: #4fc08d;
-  // position: absolute;
-  // left: 25px;
-  // top: 70px;
-  // right: calc(100%);
-  // bottom: calc(100% - 220px);
   .parent-element {
-    position: relative; /* 부모 요소에 position 속성 추가 */
+    position: relative;
   }
   
   .note-board {
@@ -28,7 +22,7 @@
     position: absolute;
     left: 25px;
     top: 70px;
-    right: 25px; /* 부모 요소와 동일한 거리만큼 지정 */
+    right: 25px;
     bottom: calc(100% - 220px);
   }
 }
@@ -182,4 +176,8 @@ input{
     font-weight:800;
     font-size: 1.5rem;
   }
+}
+.draggable-logo{
+  width: 20px;
+  height: 20px;
 }

@@ -10,10 +10,9 @@ import firebasedb from '../services/datatstore';
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [notes, setNotes] = useState({});
-  const [currentUser, setCurrentUser] = useState(null); // added
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    // added
     firebase.auth().onAuthStateChanged(setCurrentUser);
     if (currentUser) {
       firebasedb.fetchNotes(setNotes);
@@ -21,9 +20,8 @@ function App() {
   }, [currentUser]);
 
   function handleUpdate(event) {
-    event.preventDefault(); // 기본 동작 막기
+    event.preventDefault();
 
-    /// left: 20, top: 30, right: window.innerWidth - 330, bottom: window.innerHeight - 220,
     const minX = 20;
     const maxX = window.innerWidth - 330;
     const minY = 30;
@@ -42,7 +40,6 @@ function App() {
     firebasedb.addNotes(newNote);
 
     setInputValue('');
-    // firebasedb.fetchNotes(setNotes);
   }
 
   function handleSignIn() {
@@ -55,7 +52,6 @@ function App() {
   }
 
   function handleSignOut() {
-    // Firebase 로그아웃을 수행합니다.
     firebase.auth().signOut();
   }
 
