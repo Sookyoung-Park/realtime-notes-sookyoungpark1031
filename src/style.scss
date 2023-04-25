@@ -48,10 +48,15 @@
 
 
 .form {
-  width: 100%;
-  padding: 1.5rem 1rem 0 1rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  flex-direction: row;
+
+  width: 100%;
+  padding: 1.5rem 1rem 0 1rem;
+  
   input {
     width: 30%;
     font-size: 14px;
@@ -68,7 +73,7 @@
   
   
   .createBtn{
-    font-size: 14px;
+  font-size: 14px;
   margin: 0 .5em;
   border-radius: 2em;
   padding: 0.75em 1.5em;
@@ -117,4 +122,64 @@ input{
   background-color: #ffffff6e;
   margin-bottom:10px;
   width:50%;
+}
+
+
+
+.SignOutBtn{
+  margin-left: auto;
+  font-size: 0.9rem;
+  margin: 0 1.0em;
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+  background: #4fc08d;
+  border: 1px solid;
+  letter-spacing: 1px;
+  color: #fff;
+  transition: 250ms ease-out;
+  animation: animate4 2s linear infinite;
+  animation-delay: 1s;
+  &:hover, &:focus {
+    background-color: #4fc08d;
+    color:#fff;
+    letter-spacing:0.15rem;
+  }
+}
+
+.signinPage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top:25%;
+  color:#4fc08d;
+}
+
+.signinPage h1{
+  color:#4fc08d;
+  font-size:3em;
+}
+
+.signinPage .SignIn{
+  margin-left: auto;
+  font-size: 1.4rem;
+  margin: 0 1.0em;
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+  background: #4fc08d;
+  border: 1px solid;
+  letter-spacing: 1px;
+  color: #fff;
+  transition: 250ms ease-out;
+  animation: animate4 2s linear infinite;
+  animation-delay: 1s;
+  &:hover, &:focus {
+    background-color: #71ecb4;
+    color:#fff;
+    letter-spacing:0.15rem;
+    font-weight:800;
+    font-size: 1.5rem;
+  }
 }

@@ -15,14 +15,21 @@ function App() {
   useEffect(() => {
     // added
     firebase.auth().onAuthStateChanged(setCurrentUser);
-    firebasedb.fetchNotes(setNotes);
-  }, []);
+    if (currentUser) {
+      firebasedb.fetchNotes(setNotes);
+    }
+  }, [currentUser]);
 
-  function handleUpdate() {
-    const min = 50;
-    const max = 800;
-    const x = Math.floor(Math.random() * (max - min) + min);
-    const y = Math.floor(Math.random() * (max - min) + min);
+  function handleUpdate(event) {
+    event.preventDefault(); // 기본 동작 막기
+
+    /// left: 20, top: 30, right: window.innerWidth - 330, bottom: window.innerHeight - 220,
+    const minX = 20;
+    const maxX = window.innerWidth - 330;
+    const minY = 30;
+    const maxY = window.innerHeight - 330;
+    const x = Math.floor(Math.random() * (maxX - minX) + minX);
+    const y = Math.floor(Math.random() * (maxY - minY) + minY);
 
     const newNote = {
       title: inputValue,
@@ -35,6 +42,7 @@ function App() {
     firebasedb.addNotes(newNote);
 
     setInputValue('');
+    // firebasedb.fetchNotes(setNotes);
   }
 
   function handleSignIn() {
@@ -58,17 +66,18 @@ function App() {
           <form className="form">
             <input value={inputValue} type="text" onChange={(event) => setInputValue(event.target.value)} />
             <button onClick={handleUpdate} type="submit" className="createBtn">Create</button>
+            <button className="SignOutBtn" onClick={handleSignOut} type="submit">Sign Out</button>
           </form>
           <DndProvider backend={HTML5Backend}>
             <NoteBoard notes={notes} setNotes={setNotes} />
           </DndProvider>
-          <button onClick={handleSignOut} type="submit">Sign Out</button>
+
         </>
       ) : (
-        <>
-          <p>Please sign in to use the app.</p>
-          <button onClick={handleSignIn} type="submit">Sign In with Google</button>
-        </>
+        <div className="signinPage">
+          <h1>Please sign in to use the app</h1>
+          <button className="SignIn" onClick={handleSignIn} type="submit">Sign In with Google</button>
+        </div>
       )}
     </main>
   );
