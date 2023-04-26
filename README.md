@@ -17,7 +17,9 @@ I spent comparatively more time on update the position in real-time to show the 
 - Some method of note organization such as show-all. => I did random position when the meno is generated to make more like real time brainstorming & memo won't be generated outside of the noteboard(easy to orgnize and manage notes)
 
 ## Screenshots
-![1](https://github.com/dartmouth-cs52-23s/lab2-quizzical-sookyoungpark1031/blob/main/screenshots/1.png?raw=true)
+![1](https://github.com/dartmouth-cs52-23s/lab3-notes-sookyoungpark1031/blob/main/src/img/sc1.png?raw=true)
+![2](https://github.com/dartmouth-cs52-23s/lab3-notes-sookyoungpark1031/blob/main/src/img/sc2.png?raw=true)
+![3](https://github.com/dartmouth-cs52-23s/lab3-notes-sookyoungpark1031/blob/main/src/img/sc3.png?raw=true)
 
 
 
